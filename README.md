@@ -1,109 +1,82 @@
 # Claude Code Starter Pack
 
-Get up and running with Claude Code in under 10 minutes. This pack includes sensible permissions, a starter CLAUDE.md, and recommended plugins.
+Get up and running with Claude Code in under 10 minutes. Includes sensible permissions, a starter CLAUDE.md, and 12 pre-built skills for construction and document work.
 
-## Step 1: Install Claude Code
-
-**macOS / Linux / WSL:**
-```bash
-curl -fsSL https://claude.ai/install.sh | bash
-```
-
-**Windows PowerShell:**
-```powershell
-irm https://claude.ai/install.ps1 | iex
-```
-
-**Homebrew (macOS):**
-```bash
-brew install --cask claude-code
-```
-
-You'll need a Claude Pro, Max, or Team subscription at [claude.ai](https://claude.ai).
-
-## Step 2: First Run & Login
+## Quick Start
 
 ```bash
-cd ~/your-project
-claude
+git clone https://github.com/liamfraz/claude-code-starter-pack.git
+cd claude-code-starter-pack
+bash setup.sh
 ```
 
-You'll be prompted to log in on first launch. After that, credentials are stored locally.
+That's it. The setup script will:
+- Install Claude Code (if not already installed)
+- Copy permissions so you're not clicking "allow" on every action
+- Set up a starter CLAUDE.md with baseline instructions
+- Install 12 skills for documents, construction, and project management
 
-## Step 3: Apply Starter Settings
+## Prerequisites
 
-Copy the included settings file to set up permissions so Claude doesn't prompt you for every action:
+- macOS, Linux, or Windows (with Git for Windows)
+- A Claude Pro, Max, or Team subscription at [claude.ai](https://claude.ai)
 
-```bash
-# Back up existing settings if you have any
-cp ~/.claude/settings.json ~/.claude/settings.json.bak 2>/dev/null
+## What's Included
 
-# Copy starter settings
-cp settings.json ~/.claude/settings.json
-```
+### Permissions (settings.json)
 
-This allows common tools (file read/write, git, npm, etc.) and blocks dangerous operations (rm -rf, sudo, force push).
+Pre-configured to allow common safe operations and block dangerous ones:
 
-See [settings.json](settings.json) for the full list.
+| Allowed | Blocked |
+|---------|---------|
+| Read/write/edit files | `rm -rf` |
+| Git (status, add, commit, checkout, pull) | `sudo` |
+| npm/node/python commands | `git push --force` |
+| File utilities (ls, cp, mv, find, curl) | `git reset --hard` |
 
-## Step 4: Set Up Your CLAUDE.md
+Everything not explicitly allowed or blocked will prompt you for approval.
 
-Copy the starter CLAUDE.md to your home directory:
+### Skills (12 included)
 
-```bash
-cp CLAUDE.md ~/.claude/CLAUDE.md
-```
+Skills are specialized prompts that teach Claude specific workflows. These are installed automatically by `setup.sh`:
 
-This gives Claude baseline instructions for how to work. Edit it to match your preferences.
+**Document Handling:**
+| Skill | What it does |
+|-------|-------------|
+| `xlsx` | Read, write, format, and chart spreadsheets |
+| `docx` | Create and edit Word documents with formatting |
+| `pdf` | Read, merge, split, watermark, OCR PDFs |
+| `pptx` | Create and edit PowerPoint presentations |
+| `summarize` | Summarize URLs, PDFs, videos, or any file |
 
-## Step 5: Install Recommended Plugins
+**Construction:**
+| Skill | What it does |
+|-------|-------------|
+| `spec-compliance-review` | Check drawings against specs, produce compliance reports |
+| `apartment-takeoff` | Extract unit counts and types from GA plan PDFs |
+| `drawing-analyzer` | Extract dimensions, annotations, and metadata from drawings |
+| `drawing-markup` | Color-code apartment types on floor plan PDFs |
+| `pdf-construction` | Process RFIs, submittals, specs, drawing packages |
 
-Open Claude Code and paste this to install the essential plugins:
+**Workflow:**
+| Skill | What it does |
+|-------|-------------|
+| `qa` | Verify work is actually done with fresh evidence |
+| `orchestrator-mode` | Delegates complex tasks to sub-agents for parallel work |
 
-```
-Install these plugins for me:
-1. Superpowers from obra/superpowers (structured workflows for planning, TDD, debugging, code review)
-2. UI/UX Pro Max from nextlevelbuilder/ui-ux-pro-max-skill (design intelligence for frontend work)
-```
+### Recommended Plugins (install manually)
 
-Or install them manually with slash commands inside Claude Code:
+After running `setup.sh`, open Claude Code and install these plugins:
+
 ```
 /install-plugin obra/superpowers
-/install-plugin nextlevelbuilder/ui-ux-pro-max-skill
 ```
 
-### Install GSD (Get Shit Done)
+**Superpowers** adds structured workflows for planning, test-driven development, debugging, and code review. It's the best general-purpose plugin.
 
-GSD is a project management framework that plans and executes work in phases. Install it by pasting this into Claude Code:
+## Using Claude Code
 
-```
-Install GSD for me. Search npm for "claude-code-gsd" and install it, or search GitHub for the GSD Claude Code plugin and set it up.
-```
-
-Once installed, key commands:
-- `/gsd:new-project` — Start a new project with deep planning
-- `/gsd:progress` — Check where things stand
-- `/gsd:plan-phase` — Plan a phase of work
-- `/gsd:execute-phase` — Execute a planned phase
-
-## Step 6: Install Skills (Optional)
-
-Skills are specialized prompts that teach Claude specific workflows. Install any that match your work:
-
-| Skill | What it does | Install |
-|-------|-------------|---------|
-| `xlsx` | Read, write, format spreadsheets | Included in many skill packs |
-| `docx` | Create/edit Word documents | Included in many skill packs |
-| `pdf` | Read, merge, split, create PDFs | Included in many skill packs |
-| `pptx` | Create/edit PowerPoint decks | Included in many skill packs |
-| `qa` | Verify work is actually done | Included in many skill packs |
-
-To find and install more skills:
-```
-/find-skills spreadsheet automation
-```
-
-## Quick Reference
+### Basic Commands
 
 | Command | What it does |
 |---------|-------------|
@@ -111,24 +84,76 @@ To find and install more skills:
 | `claude "do something"` | One-shot task |
 | `/help` | Show all commands |
 | `/compact` | Compress conversation to save context |
-| `/clear` | Clear conversation history |
-| `Shift+Tab` | Toggle auto-accept mode (skip permission prompts) |
+| `Shift+Tab` | Toggle auto-accept mode |
 | `Ctrl+D` or `exit` | Quit |
 
-## Tips for Getting Started
+### Example Prompts
 
-1. **Just talk naturally** — "what does this codebase do?", "fix the login bug", "add tests for the auth module"
-2. **Point it at files** — "read package.json and tell me what dependencies we have"
-3. **Let it run commands** — "run the tests and fix any failures"
-4. **Use it for git** — "commit these changes", "create a PR for this feature"
-5. **Ask it to explain** — "explain how the payment flow works"
+**General:**
+```
+What does this project do?
+Summarize this PDF for me
+Create a spreadsheet from this data
+```
 
-## Permissions Explained
+**Construction:**
+```
+Review these drawings against the acoustic spec and produce a compliance report
+Do a takeoff of all apartments from these GA plans
+Mark up the floor plans with color-coded unit types
+```
 
-The included `settings.json` uses three permission levels:
+**Documents:**
+```
+Create a Word doc report with these findings
+Merge these 5 PDFs into one
+Read this Excel file and add a summary sheet
+```
 
-- **allow** — Auto-approved, no prompt. Common safe operations (read files, run tests, git status)
-- **deny** — Always blocked. Destructive operations (rm -rf, sudo, force push)
-- Everything else prompts you for approval. Hit "Always allow" to permanently approve specific tools
+### Tips
 
-You can always check and modify permissions by editing `~/.claude/settings.json`.
+1. **Just talk naturally** — no special syntax needed
+2. **Point it at files** — "read the spec PDF in my Downloads folder"
+3. **Let it run commands** — it'll ask permission for anything risky
+4. **Use skills by name** — "use the apartment-takeoff skill on these plans"
+5. **Ask it to explain** — "what does this spreadsheet contain?"
+
+## Customization
+
+### Adjusting Permissions
+
+Edit `~/.claude/settings.json` to add or remove allowed commands:
+
+```json
+{
+  "permissions": {
+    "allow": ["Bash(your-command *)"],
+    "deny": ["Bash(dangerous-command *)"]
+  }
+}
+```
+
+### Adding Your Own Instructions
+
+Edit `~/.claude/CLAUDE.md` to add project-specific rules, preferences, or context that Claude should always know about.
+
+### Installing More Skills
+
+Ask Claude Code directly:
+```
+/find-skills what I need
+```
+
+Or browse skill repos and install with:
+```
+/install-plugin owner/repo-name
+```
+
+## Troubleshooting
+
+| Problem | Fix |
+|---------|-----|
+| "command not found: claude" | Re-run `curl -fsSL https://claude.ai/install.sh \| bash` |
+| Permission prompts won't stop | Run `bash setup.sh` again to reset settings |
+| Skill not triggering | Say "use the [skill-name] skill" explicitly |
+| Want to undo everything | `cp ~/.claude/settings.json.bak ~/.claude/settings.json` |
